@@ -27,6 +27,9 @@ A React-based chemistry education game where players sort element balls into con
 - Added container-specific formula targets for strategic gameplay
 - Optimized container quantities (formula count + 2 extra for sorting)
 - Enforced strict formula validation (only assigned formulas can complete in each container)
+- Added PostgreSQL database integration with user accounts and score tracking
+- Implemented comprehensive API routes for authentication and game data
+- Created database schema for users, game scores, and progress tracking
 
 ## Game Features
 - Interactive drag-and-drop element balls
