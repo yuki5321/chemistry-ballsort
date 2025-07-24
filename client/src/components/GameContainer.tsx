@@ -33,6 +33,10 @@ const GameContainer: React.FC<GameContainerProps> = ({
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+    // Don't allow drop if container is completed
+    if (isCompleted) {
+      return;
+    }
     // Don't allow drop if container is at capacity
     if (elements.length >= maxCapacity) {
       return;
@@ -47,7 +51,7 @@ const GameContainer: React.FC<GameContainerProps> = ({
           ? 'border-green-400 shadow-lg shadow-green-400/50 bg-gradient-to-b from-green-400/20 to-green-400/10' 
           : elements.length >= maxCapacity
             ? 'border-red-400/50 bg-gradient-to-b from-red-400/20 to-red-400/10'
-          : draggedElement && draggedElement.sourceContainer !== containerIndex
+          : draggedElement && draggedElement.sourceContainer !== containerIndex && !isCompleted
             ? 'hover:border-yellow-400 border-yellow-300/50'
             : 'hover:border-white/50'
       }`}

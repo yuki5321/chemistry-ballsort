@@ -77,6 +77,13 @@ const ChemistryBallSort: React.FC = () => {
   const handleDrop = useCallback((targetContainerIndex: number) => {
     if (!draggedElement || !isRunning) return;
 
+    // Check if target container is completed
+    const isTargetCompleted = completedFormulas.some(cf => cf.containerIndex === targetContainerIndex);
+    if (isTargetCompleted) {
+      setDraggedElement(null);
+      return;
+    }
+
     // Check if target container has space
     if (gameState.containers[targetContainerIndex].length >= gameState.maxContainerCapacity) {
       setDraggedElement(null);
@@ -96,7 +103,7 @@ const ChemistryBallSort: React.FC = () => {
 
     // Check for completed formulas
     checkForCompletedFormulas(newContainers);
-  }, [draggedElement, gameState.containers, isRunning, checkForCompletedFormulas]);
+  }, [draggedElement, gameState.containers, isRunning, completedFormulas, checkForCompletedFormulas]);
 
   const handleDragEnd = useCallback(() => {
     setDraggedElement(null);

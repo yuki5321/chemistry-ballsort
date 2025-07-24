@@ -19,6 +19,10 @@ A React-based chemistry education game where players sort element balls into con
 - Enhanced container capacity logic to create strategic challenge
 - Modified Japanese UI text for test tube (試験管) terminology
 - Implemented dynamic capacity calculation based on compound complexity
+- Prevented element placement in completed test tubes
+- Enhanced container capacity logic to create strategic challenge
+- Modified Japanese UI text for test tube (試験管) terminology
+- Implemented dynamic capacity calculation based on compound complexity
 
 ## Game Features
 - Interactive drag-and-drop element balls
