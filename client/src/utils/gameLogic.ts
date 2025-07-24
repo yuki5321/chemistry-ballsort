@@ -100,12 +100,8 @@ export const generateLevel = (level: number): GameState => {
     });
   });
 
-  // Add a few extra random elements to increase difficulty
-  const extraElementCount = Math.min(3, Math.floor(level / 2));
-  for (let i = 0; i < extraElementCount; i++) {
-    const randomElement = ELEMENTS[Math.floor(Math.random() * Math.min(10, ELEMENTS.length))];
-    allElementsNeeded.push(randomElement);
-  }
+  // Only include elements that are actually used in formulas for this level
+  // No extra random elements to keep the game focused
 
   // Shuffle the elements
   const shuffledElements = [...allElementsNeeded].sort(() => Math.random() - 0.5);
