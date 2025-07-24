@@ -79,8 +79,14 @@ export const generateLevel = (level: number): GameState => {
   const containers: Element[][] = [];
   const allElementsNeeded: Element[] = [];
   
-  // Set container capacity based on level (minimum 4, increases with level)
-  const maxContainerCapacity = Math.max(4, Math.min(6, 3 + level));
+  // Calculate the maximum elements in any single formula
+  const maxFormulaSize = Math.max(...targetFormulas.map(formula => 
+    formula.elements.reduce((sum, el) => sum + el.count, 0)
+  ));
+  
+  // Set container capacity to be just enough for the largest compound + 1 extra space
+  // This creates strategic challenge without making it impossible
+  const maxContainerCapacity = Math.max(3, Math.min(7, maxFormulaSize + 1));
 
   // Collect all elements needed for the target formulas
   targetFormulas.forEach(formula => {
@@ -94,15 +100,26 @@ export const generateLevel = (level: number): GameState => {
     });
   });
 
+  // Add a few extra random elements to increase difficulty
+  const extraElementCount = Math.min(3, Math.floor(level / 2));
+  for (let i = 0; i < extraElementCount; i++) {
+    const randomElement = ELEMENTS[Math.floor(Math.random() * Math.min(10, ELEMENTS.length))];
+    allElementsNeeded.push(randomElement);
+  }
+
   // Shuffle the elements
   const shuffledElements = [...allElementsNeeded].sort(() => Math.random() - 0.5);
 
-  // Distribute elements into containers
-  const numContainers = Math.max(4, Math.min(6, targetFormulas.length + 2));
+  // Calculate minimum containers needed: total elements / capacity, but ensure enough for each formula
+  const minContainersForFormulas = targetFormulas.length + 1; // One extra for sorting
+  const minContainersForElements = Math.ceil(shuffledElements.length / maxContainerCapacity);
+  const numContainers = Math.max(minContainersForFormulas, minContainersForElements, 4);
+  
   for (let i = 0; i < numContainers; i++) {
     containers.push([]);
   }
 
+  // Distribute elements strategically to create challenge
   shuffledElements.forEach((element, index) => {
     const containerIndex = index % numContainers;
     containers[containerIndex].push(element);

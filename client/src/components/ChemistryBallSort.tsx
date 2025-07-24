@@ -141,7 +141,7 @@ const ChemistryBallSort: React.FC = () => {
             <span className="font-semibold">Level {level}</span>
           </div>
           <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2">
-            <span className="text-blue-400 font-semibold">容量: {gameState.maxContainerCapacity}</span>
+            <span className="text-blue-400 font-semibold">試験管容量: {gameState.maxContainerCapacity}</span>
           </div>
           <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2">
             <span className="text-green-400 font-semibold">Score: {score}</span>

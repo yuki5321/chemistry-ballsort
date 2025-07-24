@@ -96,7 +96,7 @@ const GameContainer: React.FC<GameContainerProps> = ({
       {/* Full container warning */}
       {elements.length >= maxCapacity && !isCompleted && (
         <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-red-400 text-xs font-bold whitespace-nowrap">
-          満杯!
+          試験管満杯!
         </div>
       )}
     </div>
