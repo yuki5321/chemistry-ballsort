@@ -15,6 +15,10 @@ interface GameContainerProps {
   containerIndex: number;
   isCompleted: boolean;
   maxCapacity: number;
+  targetFormula?: {
+    formula: string;
+    name: string;
+  } | null;
 }
 
 const GameContainer: React.FC<GameContainerProps> = ({
@@ -25,7 +29,8 @@ const GameContainer: React.FC<GameContainerProps> = ({
   draggedElement,
   containerIndex,
   isCompleted,
-  maxCapacity
+  maxCapacity,
+  targetFormula
 }) => {
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -92,6 +97,18 @@ const GameContainer: React.FC<GameContainerProps> = ({
         </>
       )}
       
+      {/* Target formula indicator */}
+      {targetFormula && (
+        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 text-center">
+          <div className="text-yellow-300 text-xs font-bold whitespace-nowrap">
+            {targetFormula.formula}
+          </div>
+          <div className="text-yellow-200/80 text-xs whitespace-nowrap">
+            {targetFormula.name}
+          </div>
+        </div>
+      )}
+
       {/* Capacity indicator */}
       <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-white/60 text-xs font-mono">
         {elements.length}/{maxCapacity}

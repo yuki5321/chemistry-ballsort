@@ -190,9 +190,8 @@ export const generateLevel = (level: number): GameState => {
     formula.elements.reduce((sum, el) => sum + el.count, 0)
   ));
   
-  // Set container capacity to be just enough for the largest compound + 1 extra space
-  // This creates strategic challenge without making it impossible
-  const maxContainerCapacity = Math.max(3, Math.min(7, maxFormulaSize + 1));
+  // Set container capacity to be just enough for the largest compound
+  const maxContainerCapacity = Math.max(3, maxFormulaSize);
 
   // Collect all elements needed for the target formulas
   targetFormulas.forEach(formula => {
@@ -206,31 +205,40 @@ export const generateLevel = (level: number): GameState => {
     });
   });
 
-  // Only include elements that are actually used in formulas for this level
-  // No extra random elements to keep the game focused
-
-  // Shuffle the elements
-  const shuffledElements = [...allElementsNeeded].sort(() => Math.random() - 0.5);
-
-  // Calculate minimum containers needed: total elements / capacity, but ensure enough for each formula
-  const minContainersForFormulas = targetFormulas.length + 1; // One extra for sorting
-  const minContainersForElements = Math.ceil(shuffledElements.length / maxContainerCapacity);
-  const numContainers = Math.max(minContainersForFormulas, minContainersForElements, 4);
+  // Calculate optimal number of containers: exactly what's needed for formulas + 2 extra for sorting
+  const numContainers = targetFormulas.length + 2;
   
+  // Initialize containers
   for (let i = 0; i < numContainers; i++) {
     containers.push([]);
   }
 
-  // Distribute elements strategically to create challenge
+  // Create container targets - assign each formula to a specific container
+  const containerTargets: (CompoundFormula | null)[] = new Array(numContainers).fill(null);
+  targetFormulas.forEach((formula, index) => {
+    containerTargets[index] = formula;
+  });
+
+  // Shuffle the elements and distribute them randomly
+  const shuffledElements = [...allElementsNeeded].sort(() => Math.random() - 0.5);
   shuffledElements.forEach((element, index) => {
     const containerIndex = index % numContainers;
     containers[containerIndex].push(element);
   });
 
+  // Calculate move limit based on level complexity
+  const totalElements = allElementsNeeded.length;
+  const baseMoves = Math.ceil(totalElements * 1.5); // Base moves
+  const levelMultiplier = 1 + (level - 1) * 0.2; // Increases with level
+  const maxMoves = Math.ceil(baseMoves * levelMultiplier);
+
   return {
     containers,
     targetFormulas,
     level,
-    maxContainerCapacity
+    maxContainerCapacity,
+    containerTargets,
+    movesLeft: maxMoves,
+    maxMoves
   };
 };

@@ -77,6 +77,12 @@ const ChemistryBallSort: React.FC = () => {
   const handleDrop = useCallback((targetContainerIndex: number) => {
     if (!draggedElement || !isRunning) return;
 
+    // Check if moves are exhausted
+    if (gameState.movesLeft <= 0) {
+      setDraggedElement(null);
+      return;
+    }
+
     // Check if target container is completed
     const isTargetCompleted = completedFormulas.some(cf => cf.containerIndex === targetContainerIndex);
     if (isTargetCompleted) {
@@ -98,12 +104,24 @@ const ChemistryBallSort: React.FC = () => {
     // Add element to target container
     newContainers[targetContainerIndex].push(draggedElement.element);
 
-    setGameState(prev => ({ ...prev, containers: newContainers }));
+    // Decrease moves
+    const newMovesLeft = gameState.movesLeft - 1;
+    setGameState(prev => ({ 
+      ...prev, 
+      containers: newContainers,
+      movesLeft: newMovesLeft
+    }));
     setDraggedElement(null);
 
     // Check for completed formulas
     checkForCompletedFormulas(newContainers);
-  }, [draggedElement, gameState.containers, isRunning, completedFormulas, checkForCompletedFormulas]);
+
+    // Check for game over
+    if (newMovesLeft <= 0 && completedFormulas.length < gameState.targetFormulas.length) {
+      setIsRunning(false);
+      alert(`ゲームオーバー！手数が足りませんでした。リセットしてもう一度挑戦してください。`);
+    }
+  }, [draggedElement, gameState.containers, gameState.movesLeft, gameState.targetFormulas.length, isRunning, completedFormulas, checkForCompletedFormulas]);
 
   const handleDragEnd = useCallback(() => {
     setDraggedElement(null);
@@ -142,7 +160,7 @@ const ChemistryBallSort: React.FC = () => {
         </div>
 
         {/* Game Stats */}
-        <div className="flex justify-center items-center gap-6 mb-8 text-white">
+        <div className="flex justify-center items-center gap-4 mb-8 text-white flex-wrap">
           <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2">
             <Trophy className="w-5 h-5 text-yellow-400" />
             <span className="font-semibold">Level {level}</span>
@@ -156,6 +174,13 @@ const ChemistryBallSort: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2">
             <Clock className="w-5 h-5 text-blue-400" />
             <span className="font-mono">{formatTime(timeElapsed)}</span>
+          </div>
+          <div className={`bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2 ${
+            gameState.movesLeft <= 5 ? 'bg-red-500/20 border border-red-400' : ''
+          }`}>
+            <span className={`font-semibold ${gameState.movesLeft <= 5 ? 'text-red-400' : 'text-purple-400'}`}>
+              残り手数: {gameState.movesLeft}
+            </span>
           </div>
         </div>
 
@@ -217,6 +242,7 @@ const ChemistryBallSort: React.FC = () => {
               containerIndex={containerIndex}
               isCompleted={completedFormulas.some(cf => cf.containerIndex === containerIndex)}
               maxCapacity={gameState.maxContainerCapacity}
+              targetFormula={gameState.containerTargets[containerIndex]}
             />
           ))}
         </div>

@@ -23,6 +23,9 @@ A React-based chemistry education game where players sort element balls into con
 - Removed unnecessary elements not required for current level formulas
 - Expanded chemical formula database to 22 compounds across 10 levels
 - Added complex organic and inorganic compounds for advanced gameplay
+- Implemented move limit system with visual countdown
+- Added container-specific formula targets for strategic gameplay
+- Optimized container quantities (formula count + 2 extra for sorting)
 
 ## Game Features
 - Interactive drag-and-drop element balls

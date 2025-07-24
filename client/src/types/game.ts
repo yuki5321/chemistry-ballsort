@@ -18,4 +18,7 @@ export interface GameState {
   targetFormulas: CompoundFormula[];
   level: number;
   maxContainerCapacity: number;
+  containerTargets: (CompoundFormula | null)[]; // Which formula each container should complete
+  movesLeft: number;
+  maxMoves: number;
 }
