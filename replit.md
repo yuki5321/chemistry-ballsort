@@ -21,9 +21,8 @@ A React-based chemistry education game where players sort element balls into con
 - Implemented dynamic capacity calculation based on compound complexity
 - Prevented element placement in completed test tubes
 - Removed unnecessary elements not required for current level formulas
-- Enhanced container capacity logic to create strategic challenge
-- Modified Japanese UI text for test tube (試験管) terminology
-- Implemented dynamic capacity calculation based on compound complexity
+- Expanded chemical formula database to 22 compounds across 10 levels
+- Added complex organic and inorganic compounds for advanced gameplay
 
 ## Game Features
 - Interactive drag-and-drop element balls

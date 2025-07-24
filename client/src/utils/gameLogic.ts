@@ -20,10 +20,14 @@ export const ELEMENTS: Element[] = [
   { symbol: 'Cl', name: 'Chlorine', atomicNumber: 17, color: '#90EE90' },
   { symbol: 'Ar', name: 'Argon', atomicNumber: 18, color: '#E6E6FA' },
   { symbol: 'K', name: 'Potassium', atomicNumber: 19, color: '#DDA0DD' },
-  { symbol: 'Ca', name: 'Calcium', atomicNumber: 20, color: '#FFF8DC' }
+  { symbol: 'Ca', name: 'Calcium', atomicNumber: 20, color: '#FFF8DC' },
+  { symbol: 'Fe', name: 'Iron', atomicNumber: 26, color: '#B87333' },
+  { symbol: 'Cu', name: 'Copper', atomicNumber: 29, color: '#B87D2C' },
+  { symbol: 'Ba', name: 'Barium', atomicNumber: 56, color: '#00C851' }
 ];
 
 export const COMPOUNDS: CompoundFormula[] = [
+  // Level 1 - Basic compounds (3 formulas)
   {
     formula: 'H₂O',
     name: 'Water',
@@ -42,6 +46,8 @@ export const COMPOUNDS: CompoundFormula[] = [
     elements: [{ symbol: 'Na', count: 1 }, { symbol: 'Cl', count: 1 }],
     level: 1
   },
+
+  // Level 2 - Simple molecules (6 formulas total)
   {
     formula: 'NH₃',
     name: 'Ammonia',
@@ -60,6 +66,8 @@ export const COMPOUNDS: CompoundFormula[] = [
     elements: [{ symbol: 'H', count: 1 }, { symbol: 'Cl', count: 1 }],
     level: 2
   },
+
+  // Level 3 - More complex compounds (8 formulas total)
   {
     formula: 'CaCO₃',
     name: 'Calcium Carbonate',
@@ -71,6 +79,104 @@ export const COMPOUNDS: CompoundFormula[] = [
     name: 'Sodium Hydroxide',
     elements: [{ symbol: 'Na', count: 1 }, { symbol: 'O', count: 1 }, { symbol: 'H', count: 1 }],
     level: 3
+  },
+
+  // Level 4 - Intermediate compounds (10 formulas total)
+  {
+    formula: 'MgO',
+    name: 'Magnesium Oxide',
+    elements: [{ symbol: 'Mg', count: 1 }, { symbol: 'O', count: 1 }],
+    level: 4
+  },
+  {
+    formula: 'Al₂O₃',
+    name: 'Aluminum Oxide',
+    elements: [{ symbol: 'Al', count: 2 }, { symbol: 'O', count: 3 }],
+    level: 4
+  },
+
+  // Level 5 - Advanced compounds (12 formulas total)
+  {
+    formula: 'H₂SO₄',
+    name: 'Sulfuric Acid',
+    elements: [{ symbol: 'H', count: 2 }, { symbol: 'S', count: 1 }, { symbol: 'O', count: 4 }],
+    level: 5
+  },
+  {
+    formula: 'KNO₃',
+    name: 'Potassium Nitrate',
+    elements: [{ symbol: 'K', count: 1 }, { symbol: 'N', count: 1 }, { symbol: 'O', count: 3 }],
+    level: 5
+  },
+
+  // Level 6 - Complex organic and inorganic (14 formulas total)
+  {
+    formula: 'C₂H₆',
+    name: 'Ethane',
+    elements: [{ symbol: 'C', count: 2 }, { symbol: 'H', count: 6 }],
+    level: 6
+  },
+  {
+    formula: 'Ca(OH)₂',
+    name: 'Calcium Hydroxide',
+    elements: [{ symbol: 'Ca', count: 1 }, { symbol: 'O', count: 2 }, { symbol: 'H', count: 2 }],
+    level: 6
+  },
+
+  // Level 7 - Very complex compounds (16 formulas total)
+  {
+    formula: 'Fe₂O₃',
+    name: 'Iron(III) Oxide',
+    elements: [{ symbol: 'Fe', count: 2 }, { symbol: 'O', count: 3 }],
+    level: 7
+  },
+  {
+    formula: 'CuSO₄',
+    name: 'Copper Sulfate',
+    elements: [{ symbol: 'Cu', count: 1 }, { symbol: 'S', count: 1 }, { symbol: 'O', count: 4 }],
+    level: 7
+  },
+
+  // Level 8 - Expert level (18 formulas total)
+  {
+    formula: 'C₆H₁₂O₆',
+    name: 'Glucose',
+    elements: [{ symbol: 'C', count: 6 }, { symbol: 'H', count: 12 }, { symbol: 'O', count: 6 }],
+    level: 8
+  },
+  {
+    formula: 'Mg(NO₃)₂',
+    name: 'Magnesium Nitrate',
+    elements: [{ symbol: 'Mg', count: 1 }, { symbol: 'N', count: 2 }, { symbol: 'O', count: 6 }],
+    level: 8
+  },
+
+  // Level 9 - Master level (20 formulas total)
+  {
+    formula: 'C₂H₅OH',
+    name: 'Ethanol',
+    elements: [{ symbol: 'C', count: 2 }, { symbol: 'H', count: 6 }, { symbol: 'O', count: 1 }],
+    level: 9
+  },
+  {
+    formula: 'Ba(ClO₃)₂',
+    name: 'Barium Chlorate',
+    elements: [{ symbol: 'Ba', count: 1 }, { symbol: 'Cl', count: 2 }, { symbol: 'O', count: 6 }],
+    level: 9
+  },
+
+  // Level 10 - Grandmaster level (22 formulas total)
+  {
+    formula: 'C₃H₈',
+    name: 'Propane',
+    elements: [{ symbol: 'C', count: 3 }, { symbol: 'H', count: 8 }],
+    level: 10
+  },
+  {
+    formula: 'Al₂(SO₄)₃',
+    name: 'Aluminum Sulfate',
+    elements: [{ symbol: 'Al', count: 2 }, { symbol: 'S', count: 3 }, { symbol: 'O', count: 12 }],
+    level: 10
   }
 ];
 
