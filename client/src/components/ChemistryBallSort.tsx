@@ -19,6 +19,7 @@ const ChemistryBallSort: React.FC = () => {
   } | null>(null);
   const [completedFormulas, setCompletedFormulas] = useState<CompoundFormula[]>([]);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [showFormulas, setShowFormulas] = useState(true);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -262,36 +263,51 @@ const ChemistryBallSort: React.FC = () => {
           {/* Target formulas with enhanced design */}
           <div className="mb-12">
             <div className="glass rounded-3xl p-8 mx-auto max-w-5xl">
-              <h2 className="text-3xl font-bold text-white text-center mb-6 flex items-center justify-center gap-3">
-                <Lightbulb className="w-8 h-8 text-yellow-400" />
-                目標化合物
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {getTargetFormulas().map((compound, index) => {
-                  const isCompleted = completedFormulas.some(cf => cf.formula === compound.formula);
-                  return (
-                    <div
-                      key={compound.formula}
-                      className={`relative rounded-2xl p-6 font-bold transition-all duration-500 interactive ${
-                        isCompleted
-                          ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-white pulse-glow'
-                          : 'glass text-white hover:bg-white/20'
-                      }`}
-                    >
-                      {isCompleted && (
-                        <div className="absolute -top-2 -right-2 w-8 h-8 bg-emerald-400 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                          ✓
-                        </div>
-                      )}
-                      <div className="text-center">
-                        <div className="text-2xl mb-2">{compound.formula}</div>
-                        <div className="text-sm opacity-80">{compound.name}</div>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="flex items-center justify-center gap-6 mb-6">
+                <h2 className="text-3xl font-bold text-white flex items-center gap-3">
+                  <Lightbulb className="w-8 h-8 text-yellow-400" />
+                  目標化合物
+                </h2>
+                <button
+                  onClick={() => setShowFormulas(!showFormulas)}
+                  className="glass rounded-xl px-4 py-2 text-white text-sm font-medium hover:bg-white/20 transition-all duration-300"
+                >
+                  {showFormulas ? '非表示' : '表示'}
+                </button>
               </div>
+              
+              {showFormulas && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {getTargetFormulas().map((compound, index) => {
+                    const isCompleted = completedFormulas.some(cf => cf.formula === compound.formula);
+                    return (
+                      <div
+                        key={compound.formula}
+                        className={`relative rounded-2xl p-6 font-bold transition-all duration-500 interactive ${
+                          isCompleted
+                            ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-white pulse-glow'
+                            : 'glass text-white hover:bg-white/20'
+                        }`}
+                      >
+                        {isCompleted && (
+                          <div className="absolute -top-2 -right-2 w-8 h-8 bg-emerald-400 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                            ✓
+                          </div>
+                        )}
+                        <div className="text-center">
+                          <div className="text-2xl mb-2">{compound.formula}</div>
+                          <div className="text-sm opacity-80">{compound.name}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              {!showFormulas && (
+                <div className="text-center text-white/60">
+                  化学式を非表示にしています。より難しい挑戦をお楽しみください！
+                </div>
+              )}
             </div>
           </div>
 

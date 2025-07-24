@@ -1,29 +1,29 @@
 import { Element, CompoundFormula, GameState } from '../types/game';
 
 export const ELEMENTS: Element[] = [
-  { symbol: 'H', name: 'Hydrogen', atomicNumber: 1, color: '#FF6B6B' },
-  { symbol: 'He', name: 'Helium', atomicNumber: 2, color: '#4ECDC4' },
-  { symbol: 'Li', name: 'Lithium', atomicNumber: 3, color: '#45B7D1' },
-  { symbol: 'Be', name: 'Beryllium', atomicNumber: 4, color: '#96CEB4' },
-  { symbol: 'B', name: 'Boron', atomicNumber: 5, color: '#FECA57' },
-  { symbol: 'C', name: 'Carbon', atomicNumber: 6, color: '#3D3D3D' },
-  { symbol: 'N', name: 'Nitrogen', atomicNumber: 7, color: '#5F4FBF' },
-  { symbol: 'O', name: 'Oxygen', atomicNumber: 8, color: '#FF3838' },
-  { symbol: 'F', name: 'Fluorine', atomicNumber: 9, color: '#FF9FF3' },
-  { symbol: 'Ne', name: 'Neon', atomicNumber: 10, color: '#FFB8B8' },
-  { symbol: 'Na', name: 'Sodium', atomicNumber: 11, color: '#FFD93D' },
-  { symbol: 'Mg', name: 'Magnesium', atomicNumber: 12, color: '#A8E6CF' },
-  { symbol: 'Al', name: 'Aluminum', atomicNumber: 13, color: '#C7C7C7' },
-  { symbol: 'Si', name: 'Silicon', atomicNumber: 14, color: '#8B4513' },
-  { symbol: 'P', name: 'Phosphorus', atomicNumber: 15, color: '#FFA500' },
-  { symbol: 'S', name: 'Sulfur', atomicNumber: 16, color: '#FFFF00' },
-  { symbol: 'Cl', name: 'Chlorine', atomicNumber: 17, color: '#90EE90' },
-  { symbol: 'Ar', name: 'Argon', atomicNumber: 18, color: '#E6E6FA' },
-  { symbol: 'K', name: 'Potassium', atomicNumber: 19, color: '#DDA0DD' },
-  { symbol: 'Ca', name: 'Calcium', atomicNumber: 20, color: '#FFF8DC' },
-  { symbol: 'Fe', name: 'Iron', atomicNumber: 26, color: '#B87333' },
-  { symbol: 'Cu', name: 'Copper', atomicNumber: 29, color: '#B87D2C' },
-  { symbol: 'Ba', name: 'Barium', atomicNumber: 56, color: '#00C851' }
+  { symbol: 'H', name: '水素', atomicNumber: 1, color: '#FF6B6B' },
+  { symbol: 'He', name: 'ヘリウム', atomicNumber: 2, color: '#4ECDC4' },
+  { symbol: 'Li', name: 'リチウム', atomicNumber: 3, color: '#45B7D1' },
+  { symbol: 'Be', name: 'ベリリウム', atomicNumber: 4, color: '#96CEB4' },
+  { symbol: 'B', name: 'ホウ素', atomicNumber: 5, color: '#FECA57' },
+  { symbol: 'C', name: '炭素', atomicNumber: 6, color: '#3D3D3D' },
+  { symbol: 'N', name: '窒素', atomicNumber: 7, color: '#5F4FBF' },
+  { symbol: 'O', name: '酸素', atomicNumber: 8, color: '#FF3838' },
+  { symbol: 'F', name: 'フッ素', atomicNumber: 9, color: '#FF9FF3' },
+  { symbol: 'Ne', name: 'ネオン', atomicNumber: 10, color: '#FFB8B8' },
+  { symbol: 'Na', name: 'ナトリウム', atomicNumber: 11, color: '#FFD93D' },
+  { symbol: 'Mg', name: 'マグネシウム', atomicNumber: 12, color: '#A8E6CF' },
+  { symbol: 'Al', name: 'アルミニウム', atomicNumber: 13, color: '#C7C7C7' },
+  { symbol: 'Si', name: 'ケイ素', atomicNumber: 14, color: '#8B4513' },
+  { symbol: 'P', name: 'リン', atomicNumber: 15, color: '#FFA500' },
+  { symbol: 'S', name: '硫黄', atomicNumber: 16, color: '#FFFF00' },
+  { symbol: 'Cl', name: '塩素', atomicNumber: 17, color: '#90EE90' },
+  { symbol: 'Ar', name: 'アルゴン', atomicNumber: 18, color: '#E6E6FA' },
+  { symbol: 'K', name: 'カリウム', atomicNumber: 19, color: '#DDA0DD' },
+  { symbol: 'Ca', name: 'カルシウム', atomicNumber: 20, color: '#FFF8DC' },
+  { symbol: 'Fe', name: '鉄', atomicNumber: 26, color: '#B87333' },
+  { symbol: 'Cu', name: '銅', atomicNumber: 29, color: '#B87D2C' },
+  { symbol: 'Ba', name: 'バリウム', atomicNumber: 56, color: '#00C851' }
 ];
 
 export const COMPOUNDS: CompoundFormula[] = [
@@ -226,11 +226,11 @@ export const generateLevel = (level: number): GameState => {
     containers[containerIndex].push(element);
   });
 
-  // Calculate move limit based on level complexity
+  // Calculate move limit based on level complexity - reduced for higher difficulty
   const totalElements = allElementsNeeded.length;
-  const baseMoves = Math.ceil(totalElements * 1.5); // Base moves
-  const levelMultiplier = 1 + (level - 1) * 0.2; // Increases with level
-  const maxMoves = Math.ceil(baseMoves * levelMultiplier);
+  const baseMoves = Math.ceil(totalElements * 1.1); // Reduced base moves from 1.5 to 1.1
+  const levelMultiplier = 1 + (level - 1) * 0.1; // Reduced level multiplier
+  const maxMoves = Math.max(Math.ceil(baseMoves * levelMultiplier), 5); // Minimum 5 moves
 
   return {
     containers,

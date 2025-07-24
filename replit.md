@@ -30,6 +30,13 @@ A React-based chemistry education game where players sort element balls into con
 - Added PostgreSQL database integration with user accounts and score tracking
 - Implemented comprehensive API routes for authentication and game data
 - Created database schema for users, game scores, and progress tracking
+- **Latest Updates:**
+  - Improved test tube sizing (w-32, h-450px) to prevent element overflow
+  - Reduced element ball size (w-16, h-16) for better spacing
+  - Added Japanese element names (水素, 酸素, 炭素, etc.)
+  - Reduced move limits for increased difficulty (20% buffer instead of 50%)
+  - Added chemical formula display toggle (show/hide functionality)
+  - Enhanced test tube labels with Japanese element names and requirements
 
 ## Game Features
 - Interactive drag-and-drop element balls

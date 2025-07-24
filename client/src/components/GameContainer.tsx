@@ -1,6 +1,7 @@
 import React from 'react';
 import ElementBall from './ElementBall';
-import { Element } from '../types/game';
+import { Element, CompoundFormula } from '../types/game';
+import { ELEMENTS } from '../utils/gameLogic';
 
 interface GameContainerProps {
   elements: Element[];
@@ -15,10 +16,7 @@ interface GameContainerProps {
   containerIndex: number;
   isCompleted: boolean;
   maxCapacity: number;
-  targetFormula?: {
-    formula: string;
-    name: string;
-  } | null;
+  targetFormula?: CompoundFormula | null;
 }
 
 const GameContainer: React.FC<GameContainerProps> = ({
@@ -51,7 +49,7 @@ const GameContainer: React.FC<GameContainerProps> = ({
 
   return (
     <div
-      className={`relative w-28 h-96 test-tube rounded-b-full border-4 backdrop-blur-sm transition-all duration-500 ${
+      className={`relative w-32 h-[450px] test-tube rounded-b-full border-4 backdrop-blur-sm transition-all duration-500 mx-2 ${
         isCompleted 
           ? 'border-emerald-400 shadow-2xl shadow-emerald-400/50 bg-gradient-to-b from-emerald-400/30 to-emerald-400/10 pulse-glow' 
           : elements.length >= maxCapacity
@@ -109,12 +107,19 @@ const GameContainer: React.FC<GameContainerProps> = ({
       
       {/* Target formula indicator */}
       {targetFormula && (
-        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 text-center">
+        <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 text-center">
           <div className="text-yellow-300 text-xs font-bold whitespace-nowrap">
             {targetFormula.formula}
           </div>
           <div className="text-yellow-200/80 text-xs whitespace-nowrap">
             {targetFormula.name}
+          </div>
+          {/* Show required elements in Japanese */}
+          <div className="text-white/60 text-xs mt-1">
+            {targetFormula.elements.map(elem => {
+              const element = ELEMENTS.find(e => e.symbol === elem.symbol);
+              return element ? `${element.name}×${elem.count}` : `${elem.symbol}×${elem.count}`;
+            }).join(' ')}
           </div>
         </div>
       )}

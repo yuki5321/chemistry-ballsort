@@ -37,11 +37,11 @@ const ElementBall: React.FC<ElementBallProps> = ({
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       className={`
-        w-20 h-20 rounded-full flex items-center justify-center cursor-pointer
+        w-16 h-16 rounded-full flex items-center justify-center cursor-pointer
         transition-all duration-300 hover:scale-110 transform element-glow
         shadow-2xl hover:shadow-3xl relative
         ${isDragging ? 'opacity-50 scale-95' : ''}
-        ${stackIndex > 0 ? 'mb-2' : ''}
+        ${stackIndex > 0 ? 'mb-1' : ''}
         ${!isTopElement ? 'cursor-not-allowed opacity-60' : 'hover:brightness-110'}
       `}
       style={{
@@ -60,7 +60,7 @@ const ElementBall: React.FC<ElementBallProps> = ({
       />
       
       <div className="relative z-10 text-center">
-        <div className="text-white font-black text-lg leading-none drop-shadow-lg">
+        <div className="text-white font-black text-sm leading-none drop-shadow-lg">
           {element.symbol}
         </div>
         <div className="text-white/90 text-xs font-medium opacity-90 leading-tight mt-1">
