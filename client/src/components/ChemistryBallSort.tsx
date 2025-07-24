@@ -146,117 +146,196 @@ const ChemistryBallSort: React.FC = () => {
     }
   };
 
+  const handleReset = () => {
+    setGameState(generateLevel(level));
+    setScore(0);
+    setTimeElapsed(0);
+    setIsRunning(false);
+    setCompletedFormulas([]);
+    setShowCelebration(false);
+  };
+
+  const handleTogglePause = () => {
+    setIsRunning(!isRunning);
+  };
+
+  const getTargetFormulas = () => {
+    return COMPOUNDS.filter(c => c.level <= level);
+  };
+
+  const getMovesColor = () => {
+    const percentage = (gameState.movesLeft / gameState.maxMoves) * 100;
+    if (percentage > 50) return 'text-emerald-400';
+    if (percentage > 25) return 'text-amber-400';
+    return 'text-rose-400';
+  };
+
+  // Floating particles component
+  const FloatingParticles = () => (
+    <div className="particles">
+      {[...Array(20)].map((_, i) => (
+        <div
+          key={i}
+          className="particle"
+          style={{
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 8}s`,
+            animationDuration: `${8 + Math.random() * 4}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+
   return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Chemistry Ball Sort
-          </h1>
-          <p className="text-blue-200 text-lg">
-            Sort elements to create chemical compounds!
-          </p>
-        </div>
-
-        {/* Game Stats */}
-        <div className="flex justify-center items-center gap-4 mb-8 text-white flex-wrap">
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-yellow-400" />
-            <span className="font-semibold">Level {level}</span>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2">
-            <span className="text-blue-400 font-semibold">試験管容量: {gameState.maxContainerCapacity}</span>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2">
-            <span className="text-green-400 font-semibold">Score: {score}</span>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2">
-            <Clock className="w-5 h-5 text-blue-400" />
-            <span className="font-mono">{formatTime(timeElapsed)}</span>
-          </div>
-          <div className={`bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2 ${
-            gameState.movesLeft <= 5 ? 'bg-red-500/20 border border-red-400' : ''
-          }`}>
-            <span className={`font-semibold ${gameState.movesLeft <= 5 ? 'text-red-400' : 'text-purple-400'}`}>
-              残り手数: {gameState.movesLeft}
-            </span>
-          </div>
-        </div>
-
-        {/* Control Buttons */}
-        <div className="flex justify-center gap-4 mb-8">
-          <button
-            onClick={startPauseGame}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl"
-          >
-            {isRunning ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-            {isRunning ? 'Pause' : 'Start'}
-          </button>
-          <button
-            onClick={resetGame}
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl"
-          >
-            <RotateCcw className="w-5 h-5" />
-            Reset
-          </button>
-          <button
-            onClick={getHint}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl"
-          >
-            <Lightbulb className="w-5 h-5" />
-            Hint
-          </button>
-        </div>
-
-        {/* Target Formulas */}
-        <div className="mb-8">
-          <h3 className="text-white text-xl font-semibold mb-4 text-center">Target Formulas</h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            {COMPOUNDS.filter(c => c.level <= level).map((compound, index) => (
-              <div
-                key={compound.formula}
-                className={`px-4 py-2 rounded-lg border-2 transition-all duration-300 ${
-                  completedFormulas.some(cf => cf.formula === compound.formula)
-                    ? 'bg-green-500 border-green-400 text-white'
-                    : 'bg-white/10 border-white/30 text-white'
-                }`}
-              >
-                <div className="font-mono font-bold">{compound.formula}</div>
-                <div className="text-sm opacity-80">{compound.name}</div>
+    <div className="min-h-screen gradient-bg relative overflow-hidden">
+      <FloatingParticles />
+      
+      <div className="relative z-10 min-h-screen backdrop-blur-sm bg-black/10">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          {/* Header with glass morphism */}
+          <div className="text-center mb-12">
+            <div className="glass rounded-3xl p-8 mb-8 mx-auto max-w-4xl">
+              <h1 className="text-6xl font-black text-white mb-6 tracking-tight">
+                <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  化学ボールソート
+                </span>
+              </h1>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-white">
+                <div className="glass rounded-2xl p-4 interactive">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <Trophy className="w-6 h-6 text-yellow-400" />
+                    <span className="text-sm font-medium opacity-80">レベル</span>
+                  </div>
+                  <div className="text-3xl font-bold text-yellow-400">{level}</div>
+                </div>
+                
+                <div className="glass rounded-2xl p-4 interactive">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <span className="text-2xl">⭐</span>
+                    <span className="text-sm font-medium opacity-80">スコア</span>
+                  </div>
+                  <div className="text-3xl font-bold text-cyan-400">{score.toLocaleString()}</div>
+                </div>
+                
+                <div className="glass rounded-2xl p-4 interactive">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <Clock className="w-6 h-6 text-blue-400" />
+                    <span className="text-sm font-medium opacity-80">時間</span>
+                  </div>
+                  <div className="text-3xl font-bold text-blue-400">{formatTime(timeElapsed)}</div>
+                </div>
+                
+                <div className="glass rounded-2xl p-4 interactive">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <span className="text-2xl">🔄</span>
+                    <span className="text-sm font-medium opacity-80">残り手数</span>
+                  </div>
+                  <div className={`text-3xl font-bold ${getMovesColor()}`}>
+                    {gameState.movesLeft}
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        {/* Game Area */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
-          {gameState.containers.map((container, containerIndex) => (
-            <GameContainer
-              key={containerIndex}
-              elements={container}
-              onDragStart={(ballIndex) => handleDragStart(containerIndex, ballIndex)}
-              onDrop={() => handleDrop(containerIndex)}
-              onDragEnd={handleDragEnd}
-              draggedElement={draggedElement}
-              containerIndex={containerIndex}
-              isCompleted={completedFormulas.some(cf => cf.containerIndex === containerIndex)}
-              maxCapacity={gameState.maxContainerCapacity}
-              targetFormula={gameState.containerTargets[containerIndex]}
-            />
-          ))}
-        </div>
-
-        {/* Celebration */}
-        {showCelebration && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-8 text-center animate-bounce">
-              <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">Level Complete!</h2>
-              <p className="text-gray-600">Moving to Level {level + 1}...</p>
+            {/* Control buttons with enhanced design */}
+            <div className="flex justify-center gap-4 mb-8">
+              <button
+                onClick={handleTogglePause}
+                className="btn-animated glass rounded-2xl px-8 py-4 text-white font-bold text-lg flex items-center gap-3 hover:bg-white/20 transition-all duration-300"
+              >
+                {isRunning ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+                {isRunning ? '一時停止' : '開始'}
+              </button>
+              
+              <button
+                onClick={handleReset}
+                className="btn-animated glass rounded-2xl px-8 py-4 text-white font-bold text-lg flex items-center gap-3 hover:bg-white/20 transition-all duration-300"
+              >
+                <RotateCcw className="w-6 h-6" />
+                リセット
+              </button>
             </div>
           </div>
-        )}
+
+          {/* Target formulas with enhanced design */}
+          <div className="mb-12">
+            <div className="glass rounded-3xl p-8 mx-auto max-w-5xl">
+              <h2 className="text-3xl font-bold text-white text-center mb-6 flex items-center justify-center gap-3">
+                <Lightbulb className="w-8 h-8 text-yellow-400" />
+                目標化合物
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {getTargetFormulas().map((compound, index) => {
+                  const isCompleted = completedFormulas.some(cf => cf.formula === compound.formula);
+                  return (
+                    <div
+                      key={compound.formula}
+                      className={`relative rounded-2xl p-6 font-bold transition-all duration-500 interactive ${
+                        isCompleted
+                          ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-white pulse-glow'
+                          : 'glass text-white hover:bg-white/20'
+                      }`}
+                    >
+                      {isCompleted && (
+                        <div className="absolute -top-2 -right-2 w-8 h-8 bg-emerald-400 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                          ✓
+                        </div>
+                      )}
+                      <div className="text-center">
+                        <div className="text-2xl mb-2">{compound.formula}</div>
+                        <div className="text-sm opacity-80">{compound.name}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Game containers with enhanced spacing */}
+          <div className="flex justify-center items-end gap-8 mb-8 flex-wrap">
+            {gameState.containers.map((container, index) => (
+              <GameContainer
+                key={index}
+                elements={container}
+                onDragStart={(ballIndex) => handleDragStart(index, ballIndex)}
+                onDrop={() => handleDrop(index)}
+                onDragEnd={handleDragEnd}
+                draggedElement={draggedElement}
+                containerIndex={index}
+                isCompleted={completedFormulas.some(cf => cf.containerIndex === index)}
+                maxCapacity={gameState.maxContainerCapacity}
+                targetFormula={gameState.containerTargets[index] || null}
+              />
+            ))}
+          </div>
+
+          {/* Enhanced celebration overlay */}
+          {showCelebration && (
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+              <div className="glass rounded-3xl p-12 text-center max-w-lg mx-4 celebration">
+                <div className="text-8xl mb-6">🎉</div>
+                <h2 className="text-4xl font-bold text-white mb-6">
+                  <span className="bg-gradient-to-r from-yellow-400 to-pink-400 bg-clip-text text-transparent">
+                    レベルクリア！
+                  </span>
+                </h2>
+                <p className="text-white/80 text-xl mb-6">
+                  すべての化合物を完成させました！
+                </p>
+                <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                  次のレベルに進みます...
+                </div>
+                <div className="mt-6 flex justify-center">
+                  <div className="w-16 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

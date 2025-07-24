@@ -51,15 +51,25 @@ const GameContainer: React.FC<GameContainerProps> = ({
 
   return (
     <div
-      className={`relative w-24 h-80 bg-gradient-to-b from-transparent to-white/10 rounded-b-full border-4 border-white/30 backdrop-blur-sm transition-all duration-500 ${
+      className={`relative w-28 h-96 test-tube rounded-b-full border-4 backdrop-blur-sm transition-all duration-500 ${
         isCompleted 
-          ? 'border-green-400 shadow-lg shadow-green-400/50 bg-gradient-to-b from-green-400/20 to-green-400/10' 
+          ? 'border-emerald-400 shadow-2xl shadow-emerald-400/50 bg-gradient-to-b from-emerald-400/30 to-emerald-400/10 pulse-glow' 
           : elements.length >= maxCapacity
-            ? 'border-red-400/50 bg-gradient-to-b from-red-400/20 to-red-400/10'
+            ? 'border-rose-400/70 bg-gradient-to-b from-rose-400/30 to-rose-400/10 shadow-xl shadow-rose-400/30'
           : draggedElement && draggedElement.sourceContainer !== containerIndex && !isCompleted
-            ? 'hover:border-yellow-400 border-yellow-300/50'
-            : 'hover:border-white/50'
+            ? 'hover:border-amber-400 border-amber-300/60 bg-gradient-to-b from-amber-400/20 to-amber-400/10'
+            : 'border-white/40 bg-gradient-to-b from-white/15 to-white/5 hover:border-white/60'
       }`}
+      style={{
+        background: isCompleted 
+          ? 'linear-gradient(to bottom, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1))'
+          : elements.length >= maxCapacity
+            ? 'linear-gradient(to bottom, rgba(244, 63, 94, 0.2), rgba(225, 29, 72, 0.1))'
+            : 'linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05))',
+        boxShadow: isCompleted 
+          ? '0 20px 40px rgba(16, 185, 129, 0.3), inset 0 2px 10px rgba(255, 255, 255, 0.1)'
+          : '0 10px 30px rgba(0, 0, 0, 0.2), inset 0 2px 10px rgba(255, 255, 255, 0.1)'
+      }}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
