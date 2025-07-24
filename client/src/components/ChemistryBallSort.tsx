@@ -38,7 +38,7 @@ const ChemistryBallSort: React.FC = () => {
 
   const checkForCompletedFormulas = useCallback((containers: Element[][]) => {
     const targetFormulas = COMPOUNDS.filter(c => c.level <= level);
-    const newCompletedFormulas = checkAllFormulasCompleted(containers, targetFormulas);
+    const newCompletedFormulas = checkAllFormulasCompleted(containers, targetFormulas, gameState.containerTargets);
 
     if (newCompletedFormulas.length > completedFormulas.length) {
       setCompletedFormulas(newCompletedFormulas);
@@ -55,7 +55,7 @@ const ChemistryBallSort: React.FC = () => {
         }, 3000);
       }
     }
-  }, [completedFormulas.length, level]);
+  }, [completedFormulas.length, level, gameState.containerTargets]);
 
   const handleDragStart = useCallback((containerIndex: number, ballIndex: number) => {
     if (!isRunning) return;

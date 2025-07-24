@@ -40,21 +40,21 @@ export const validateFormula = (containerElements: Element[], targetFormula: Com
   return true;
 };
 
-export const checkAllFormulasCompleted = (containers: Element[][], targetFormulas: CompoundFormula[]): CompoundFormula[] => {
+export const checkAllFormulasCompleted = (containers: Element[][], targetFormulas: CompoundFormula[], containerTargets: (CompoundFormula | null)[]): CompoundFormula[] => {
   const completedFormulas: CompoundFormula[] = [];
   
-  // For each container, check if it contains exactly one complete formula
+  // For each container, check if it contains exactly the target formula assigned to it
   containers.forEach((container, containerIndex) => {
-    for (const formula of targetFormulas) {
-      if (validateFormula(container, formula)) {
-        // Check if this formula hasn't been completed yet
-        if (!completedFormulas.some(cf => cf.formula === formula.formula)) {
-          completedFormulas.push({
-            ...formula,
-            containerIndex
-          });
-        }
-        break; // Only one formula per container
+    const targetFormula = containerTargets[containerIndex];
+    
+    // Only check if this container has a target formula assigned
+    if (targetFormula && validateFormula(container, targetFormula)) {
+      // Check if this formula hasn't been completed yet
+      if (!completedFormulas.some(cf => cf.formula === targetFormula.formula)) {
+        completedFormulas.push({
+          ...targetFormula,
+          containerIndex
+        });
       }
     }
   });
