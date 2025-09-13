@@ -30,7 +30,7 @@ export interface IStorage {
   createUserProgress(progress: InsertUserProgress): Promise<UserProgress>;
 }
 
-import { db } from "./db";
+import { db } from "./db.js";
 import { eq, desc } from "drizzle-orm";
 
 export class DatabaseStorage implements IStorage {
