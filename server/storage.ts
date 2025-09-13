@@ -8,7 +8,7 @@ import {
   type InsertGameScore,
   type UserProgress,
   type InsertUserProgress
-} from "@shared/schema";
+} from "../shared/schema.js";
 
 // modify the interface with any CRUD methods
 // you might need
