@@ -134,7 +134,21 @@ app.get("*", (_req, res) => {
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    res.status(404).json({ message: "App not built" });
+    // Fallback: serve a simple HTML page
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Chemistry Ball Sort</title>
+          <meta charset="utf-8">
+        </head>
+        <body>
+          <h1>Chemistry Ball Sort Game</h1>
+          <p>Loading...</p>
+          <p>If you see this message, the app is still building. Please wait a moment and refresh.</p>
+        </body>
+      </html>
+    `);
   }
 });
 

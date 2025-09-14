@@ -2,6 +2,10 @@
   "version": 2,
   "builds": [
     {
+      "src": "client/index.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "server/simple.ts",
       "use": "@vercel/node",
       "config": {
